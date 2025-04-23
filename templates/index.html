@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Detection</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: red;
+            margin: 10px 0;
+        }
+        .output-image {
+            max-width: 100%;
+            margin-top: 20px;
+            border: 2px solid #333;
+            border-radius: 4px;
+        }
+        .summary {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+            background: #e8f4f8;
+            border-radius: 4px;
+        }
+        .summary h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crop Disease Detection</h1>
+        <form method="post" enctype="multipart/form-data">
+            <p>
+                <input type="file" name="file" accept="image/*">
+                <input type="submit" value="Upload and Predict">
+            </p>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if output_image %}
+            <img src="{{ output_image }}" alt="Annotated Image" class="output-image">
+            <div class="summary">
+                <h2>Disease Summary</h2>
+                <ul>
+                    {% for disease, count in disease_summary.items() %}
+                        <li>{{ disease }}: {{ count }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
